@@ -1,5 +1,5 @@
 <h1 align="center">
-  Create Clone
+  create-clone
 </h1>
 <p align="center">
   <a href="https://www.npmjs.org/package/create-clone"><img src="https://badgen.net/npm/v/create-clone" alt="npm"></a>
