@@ -1,0 +1,1 @@
+function extractFile(tarball, file) {}

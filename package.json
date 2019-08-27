@@ -1,0 +1,47 @@
+{
+  "name": "create-clone",
+  "version": "0.1.0",
+  "description": "A template repository cloning tool with support for private GitHub repos.",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "build": "typebundle \"src/{cli,index}.ts\" --output dist --target 8",
+    "git-pre-commit": "precise-commits",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdmurphy/create-clone.git"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "templates",
+    "git",
+    "npx",
+    "clone"
+  ],
+  "author": "Ryan Murphy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rdmurphy/create-clone/issues"
+  },
+  "homepage": "https://github.com/rdmurphy/create-clone#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@newswire/prettier-config": "^2.0.0",
+    "@types/mri": "^1.1.0",
+    "@types/node": "^12.7.2",
+    "@types/tar": "^4.0.3",
+    "hosted-git-info": "^3.0.0",
+    "mri": "^1.1.4",
+    "precise-commits": "^1.0.2",
+    "prettier": "^1.17.1",
+    "tar": "^4.4.8",
+    "typebundle": "^0.5.0"
+  },
+  "prettier": "@newswire/prettier-config"
+}
