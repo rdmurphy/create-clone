@@ -86,4 +86,21 @@ describe('create-clone', function() {
       });
     });
   });
+
+  describe('create-clone + gist', () => {
+    [
+      'gist:rdmurphy/a331aa74143680d709faf3922b15c463',
+      'https://gist.github.com/rdmurphy/a331aa74143680d709faf3922b15c463',
+      'git@gist.github.com:rdmurphy/a331aa74143680d709faf3922b15c463',
+    ].forEach(repo => {
+      it(repo, async () => {
+        await createClone(repo, '.output');
+
+        await compare(
+          '.output',
+          new Map([['index.txt', 'This is only a test.\n']])
+        );
+      });
+    });
+  });
 });
