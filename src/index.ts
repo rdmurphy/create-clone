@@ -1,6 +1,7 @@
 // native
 import fs from 'fs';
 import https from 'https';
+import { resolve } from 'path';
 import { promisify } from 'util';
 
 // packages
@@ -16,7 +17,9 @@ async function ensureDirIsEmpty(dir: string) {
     const files = await readdir(dir);
 
     if (files.length > 0) {
-      throw new Error('The output directory already contains files');
+      throw new Error(
+        `The output directory already contains files (${resolve(dir)})`
+      );
     }
   } catch (err) {
     if (err.code !== 'ENOENT') throw err;
@@ -44,7 +47,6 @@ function downloadTarball(url: string | URL, type: string, dest: string) {
         const code = res.statusCode;
 
         if (!code || code >= 400) {
-          console.log(url, code);
           return reject({ code, message: res.statusMessage });
         }
         if (code >= 300) {

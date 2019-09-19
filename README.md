@@ -8,11 +8,162 @@
   <a href="https://packagephobia.now.sh/result?p=create-clone"><img src="https://badgen.net/packagephobia/install/create-clone" alt="install size"></a>
 </p>
 
-`create-clone` is a template repository cloning tool with support for private GitHub repos.
+`create-clone` is a template repository scaffolding tool that creates copies of git repositories with support for private GitHub repos. It taps into the compressed tarball of a repository to quickly pull down a copy without all that extra git cruft.
 
 ## Key features
 
-TK TK
+- 🎏 Supports GitHub repos, GitHub gists, GitLab and Bitbucket as sources
+- 💡 Understands GitHub shorthand (`rdmurphy/my-cool-template`) for referring to repositories
+- 🔐 With the proper credentials set up **can clone private repositories on GitHub too!**
+
+## Table of contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Setup](#setup)
+- [Usage](#usage)
+  - [GitHub](#github)
+  - [GitLab](#gitlab)
+  - [Bitbucket](#bitbucket)
+  - [Gist](#gist)
+- [Private GitHub repos](#private-github-repos)
+- [What makes this different from `degit`?](#what-makes-this-different-from-degit)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Setup
+
+This library expects to be used in a global context and makes the most sense when installed globally.
+
+```sh
+npm install --global create-clone
+# or
+yarn global add create-clone
+```
+
+This also means it works great when paired with `npx`.
+
+```sh
+npx create-clone <repository> <dest>
+```
+
+**However!** `create-clone`'s unique name gives it another super power &mdash; you can use a special feature of `npm init` and `yarn create`.
+
+```sh
+npm init clone <repository> <dest>
+# or
+yarn create clone <repository> <dest>
+```
+
+This is basically the entire reason this library exists. 😶
+
+## Usage
+
+`create-clone` works any git host URLs that [`hosted-git-info`](https://github.com/npm/hosted-git-info) supports. By default the copy of the repository is output into your **current working directory**. A path to a different directory can be provided as the second parameter and will be created if necessary.
+
+### GitHub
+
+```sh
+# shortcuts only available to GitHub
+create-clone user/repository
+create-clone user/repository#branch
+
+create-clone github:user/repository
+create-clone github:user/repository.git
+create-clone github:user/repository#branch
+create-clone github:user/repository.git#branch
+
+# github.com and www.github.com are both supported
+create-clone https://github.com/user/repository
+create-clone https://github.com/user/repository.git
+create-clone https://github.com/user/repository#branch
+create-clone https://github.com/user/repository.git#branch
+create-clone git@github.com:user/repository
+create-clone git@github.com:user/repository.git
+create-clone git@github.com:user/repository#branch
+create-clone git@github.com:user/repository.git#branch
+```
+
+### GitLab
+
+```sh
+create-clone gitlab:user/repository
+create-clone gitlab:user/repository.git
+create-clone gitlab:user/repository#branch
+create-clone gitlab:user/repository.git#branch
+
+# gitlab.com and www.gitlab.com are both supported
+create-clone https://gitlab.com/user/repository
+create-clone https://gitlab.com/user/repository.git
+create-clone https://gitlab.com/user/repository#branch
+create-clone https://gitlab.com/user/repository.git#branch
+create-clone git@gitlab.com:user/repository
+create-clone git@gitlab.com:user/repository.git
+create-clone git@gitlab.com:user/repository#branch
+create-clone git@gitlab.com:user/repository.git#branch
+```
+
+### Bitbucket
+
+```sh
+create-clone bitbucket:user/repository
+create-clone bitbucket:user/repository.git
+create-clone bitbucket:user/repository#branch
+create-clone bitbucket:user/repository.git#branch
+
+# bitbucket.org and www.bitbucket.org are both supported
+create-clone https://bitbucket.org/user/repository
+create-clone https://bitbucket.org/user/repository.git
+create-clone https://bitbucket.org/user/repository#branch
+create-clone https://bitbucket.org/user/repository.git#branch
+create-clone git@bitbucket.org:user/repository
+create-clone git@bitbucket.org:user/repository.git
+create-clone git@bitbucket.org:user/repository#branch
+create-clone git@bitbucket.org:user/repository.git#branch
+```
+
+### Gist
+
+```sh
+create-clone gist:user/hash
+create-clone gist:user/hash.git
+create-clone gist:user/hash#branch
+create-clone gist:user/hash.git#branch
+
+create-clone git@gist.github.com:hash.git
+create-clone git+https://gist.github.com:hash.git
+create-clone git+https://gist.github.com:hash.git
+create-clone https://gist.github.com/user/hash
+create-clone https://gist.github.com/user/hash.git
+create-clone https://gist.github.com/user/hash#branch
+create-clone https://gist.github.com/user/hash.git#branch
+create-clone git@gist.github.com:user/hash
+create-clone git@gist.github.com:user/hash.git
+create-clone git@gist.github.com:user/hash#branch
+create-clone git@gist.github.com:user/hash.git#branch
+```
+
+## Private GitHub repos
+
+`create-clone` requires a [GitHub personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with read access for repositories and/or gists. Once you have this code, it needs to be available in your environment at `GITHUB_TOKEN`.
+
+In your `.bashrc`/`.zshrc`/preferred shell config:
+
+```sh
+export GITHUB_TOKEN=<personal-access-token>
+```
+
+`create-clone` will check for this environment variable when attempting to clone a GitHub repository or gist and [include it as an authorization header](https://developer.github.com/v3/#authentication) in the request.
+
+I'd love to get this to work with GitLab and Bitbucket too &mdash; if you have any ideas, please let me know how it works with those two platforms!
+
+## What makes this different from `degit`?
+
+Honestly? Not a whole lot. This was mostly me wanting to be able to do something cool like `npm init clone <repo>`/`yarn create clone <repo>`. Isn't that fun?
+
+The most notable difference is `create-clone` **does not** have a caching layer like `degit` does. In practice I've not found that to be a major issue, but it may a big deal for some folks! `degit` also has a [cool actions framework layered on top](https://github.com/Rich-Harris/degit#actions).
 
 ## License
 
