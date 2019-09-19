@@ -2,6 +2,7 @@
 import fs from 'fs';
 import https from 'https';
 import { resolve } from 'path';
+import { URL } from 'url';
 import { promisify } from 'util';
 
 // packages
