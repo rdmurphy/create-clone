@@ -63,6 +63,21 @@ This is basically the reason this library exists. 😶
 
 `create-clone` works any git host URLs that [`hosted-git-info`](https://github.com/npm/hosted-git-info) supports. By default the copy of the repository is output into your **current working directory**. A path to a different directory can be provided as the second parameter and will be created if necessary.
 
+```sh
+# The contents of the repository will be copied into the current directory
+create-clone user/repository
+
+# The contents of the repository will be copied into provided directory (and created if necessary)
+create-clone user/repository my-new-project
+```
+
+By default `create-clone` will stop and not touch a target directory that already contains files, but this can be overriden with `--force`.
+
+```sh
+# I already have something in the "my-old-project" directory, but I don't care
+create-clone user/repository my-old-project --force
+```
+
 ### GitHub
 
 ```sh
