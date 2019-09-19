@@ -51,6 +51,17 @@ describe('create-clone', function() {
         );
       });
     });
+
+    const branch = 'github:rdmurphy/create-clone-test#a-branch';
+
+    it(branch, async () => {
+      await createClone(branch, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a test branch.\n']])
+      );
+    });
   });
 
   describe('create-clone + gitlab', () => {
@@ -68,6 +79,17 @@ describe('create-clone', function() {
         );
       });
     });
+
+    const branch = 'gitlab:rdmurphy_/create-clone-test#a-branch';
+
+    it(branch, async () => {
+      await createClone(branch, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a test branch.\n']])
+      );
+    });
   });
 
   describe('create-clone + bitbucket', () => {
@@ -84,6 +106,17 @@ describe('create-clone', function() {
           new Map([['index.txt', 'This is only a test.\n']])
         );
       });
+    });
+
+    const branch = 'bitbucket:rdmurphy_/create-clone-test#a-branch';
+
+    it(branch, async () => {
+      await createClone(branch, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a test branch.\n']])
+      );
     });
   });
 
