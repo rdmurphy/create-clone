@@ -2,7 +2,7 @@
 import fs from 'fs';
 import https from 'https';
 import { resolve } from 'path';
-import { URL } from 'url';
+import { parse, URL } from 'url';
 import { promisify } from 'util';
 
 // packages
@@ -43,8 +43,11 @@ function downloadTarball(url: string | URL, type: string, dest: string) {
       headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
     }
 
+    // we have to do this to support Node 8
+    const parts = parse(url.toString());
+
     https
-      .get(url, { headers }, res => {
+      .get({ headers, ...parts }, res => {
         const code = res.statusCode;
 
         if (!code || code >= 400) {
