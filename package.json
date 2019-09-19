@@ -12,7 +12,7 @@
     "git-pre-commit": "precise-commits",
     "prerelease": "npm run build",
     "release": "np --no-yarn",
-    "test": "echo \"It's fine: no test specified\" && exit 0",
+    "test": "mocha",
     "watch": "typebundle \"src/{cli,index}.ts\" --output dist --target 8 --watch"
   },
   "repository": {
@@ -46,9 +46,12 @@
     "@types/node": "^12.7.5",
     "@types/tar": "^4.0.3",
     "doctoc": "^1.4.0",
+    "fs-extra": "^8.1.0",
+    "mocha": "^6.2.0",
     "np": "^5.1.0",
     "precise-commits": "^1.0.2",
     "prettier": "^1.17.1",
+    "tiny-glob": "^0.2.6",
     "typebundle": "^0.5.0"
   },
   "prettier": "@newswire/prettier-config"
