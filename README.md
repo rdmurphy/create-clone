@@ -14,7 +14,7 @@
 
 - 🎏 Supports GitHub repos, GitHub gists, GitLab and Bitbucket as sources
 - 💡 Understands GitHub shorthand (`rdmurphy/my-cool-template`) for referring to repositories
-- 🔐 With the proper credentials set up **can clone private repositories on GitHub too!**
+- 🔐 With proper credentials set up it **can clone private repositories on GitHub too!**
 
 ## Table of contents
 
@@ -57,7 +57,7 @@ npm init clone <repository> <dest>
 yarn create clone <repository> <dest>
 ```
 
-This is basically the entire reason this library exists. 😶
+This is basically the reason this library exists. 😶
 
 ## Usage
 
@@ -159,7 +159,7 @@ export GITHUB_TOKEN=<personal-access-token>
 
 I'd love to get this to work with GitLab and Bitbucket too &mdash; if you have any ideas, please let me know how it works with those two platforms!
 
-## What makes this different from `degit`?
+## What makes this different from [`degit`](https://github.com/Rich-Harris/degit)?
 
 Honestly? Not a whole lot. This was mostly me wanting to be able to do something cool like `npm init clone <repo>`/`yarn create clone <repo>`. Isn't that fun?
 
