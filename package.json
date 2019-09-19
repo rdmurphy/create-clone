@@ -12,6 +12,7 @@
     "git-pre-commit": "precise-commits",
     "prerelease": "npm run build",
     "release": "np --no-yarn",
+    "test": "echo \"It's fine: no test specified\" && exit 0",
     "watch": "typebundle \"src/{cli,index}.ts\" --output dist --target 8 --watch"
   },
   "repository": {
