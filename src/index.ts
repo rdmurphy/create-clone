@@ -2,7 +2,7 @@
 import fs from 'fs';
 import https from 'https';
 import { resolve } from 'path';
-import { parse, URL } from 'url';
+import { URL } from 'url';
 import { promisify } from 'util';
 
 // packages
@@ -35,7 +35,7 @@ async function ensureDir(dir: string) {
   }
 }
 
-function downloadTarball(url: string | URL, type: string, dest: string) {
+function downloadTarball(url: URL, type: string, dest: string) {
   return new Promise((resolve, reject) => {
     const headers = {} as OutgoingHttpHeaders;
 
@@ -43,18 +43,30 @@ function downloadTarball(url: string | URL, type: string, dest: string) {
       headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
     }
 
+    if ('gitlab' === type && process.env.GITLAB_TOKEN) {
+      headers['Private-Token'] = process.env.GITLAB_TOKEN;
+    }
+
+    if ('bitbucket' === type && process.env.BITBUCKET_TOKEN) {
+    }
+
     // we have to do this to support Node 8
-    const parts = parse(url.toString());
+    const { host, pathname, protocol, search } = url;
+    const path = pathname + search;
 
     https
-      .get({ headers, ...parts }, res => {
+      .get({ headers, host, path, protocol }, res => {
         const code = res.statusCode;
 
         if (!code || code >= 400) {
           return reject({ code, message: res.statusMessage });
         }
         if (code >= 300) {
-          return downloadTarball(res.headers.location as string, type, dest)
+          return downloadTarball(
+            new URL(res.headers.location as string),
+            type,
+            dest
+          )
             .then(resolve)
             .catch(reject);
         }
