@@ -210,7 +210,7 @@ export BITBUCKET_TOKEN=<app-password>
 
 Honestly? Not a whole lot. This was mostly me wanting to be able to do something cool like `npm init clone <repo>`/`yarn create clone <repo>`.
 
-The most notable difference is `create-clone` **does not** have a caching layer like `degit` does. In practice I've not found that to be a major issue, but it may a big deal for some folks! `degit` also has a [cool actions framework layered on top](https://github.com/Rich-Harris/degit#actions).
+The most notable difference is `create-clone` **does not** have a caching layer like `degit` does. In practice I've not found that to be a major issue, but it may be a big deal for some folks! `degit` also has a [cool actions framework layered on top](https://github.com/Rich-Harris/degit#actions).
 
 ## License
 
