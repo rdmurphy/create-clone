@@ -8,18 +8,19 @@
   <a href="https://packagephobia.now.sh/result?p=create-clone"><img src="https://badgen.net/packagephobia/install/create-clone" alt="install size"></a>
 </p>
 
-`create-clone` is a template repository scaffolding tool that creates copies of git repositories with support for private GitHub repos. It taps into the compressed tarball of a repository to quickly pull down a copy without all that extra git cruft.
+`create-clone` is a template repository scaffolding tool that creates copies of git repositories **with support for private repos**. It taps into the compressed tarball of a repository to quickly pull down a copy without all that extra git cruft.
 
 ## Key features
 
-- 🎏 Supports GitHub repos, GitHub gists, GitLab and Bitbucket as sources
+- 🎏 Supports GitHub repos, GitHub gists, GitLab and Bitbucket
 - 💡 Understands GitHub shorthand (`rdmurphy/my-cool-template`) for referring to repositories
-- 🔐 With proper credentials set up it **can clone private repositories on GitHub too!**
+- 🔐 With proper credentials in place **can clone private repositories on GitHub, GitLab and Bitbucket**
 
 ## Table of contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 
 - [Setup](#setup)
 - [Usage](#usage)
@@ -27,7 +28,10 @@
   - [GitLab](#gitlab)
   - [Bitbucket](#bitbucket)
   - [Gist](#gist)
-- [Private GitHub repos](#private-github-repos)
+- [Private repos](#private-repos)
+  - [GitHub](#github-1)
+  - [GitLab](#gitlab-1)
+  - [Bitbucket](#bitbucket-1)
 - [What makes this different from `degit`?](#what-makes-this-different-from-degit)
 - [License](#license)
 
@@ -57,7 +61,7 @@ npm init clone <repository> <dest>
 yarn create clone <repository> <dest>
 ```
 
-This is basically the reason this library exists. 😶
+This is most of the reason this library exists. 😶
 
 ## Usage
 
@@ -160,9 +164,15 @@ create-clone git@gist.github.com:user/hash#branch
 create-clone git@gist.github.com:user/hash.git#branch
 ```
 
-## Private GitHub repos
+## Private repos
 
-`create-clone` requires a [GitHub personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with read access for repositories and/or gists. Once you have this code, it needs to be available in your environment at `GITHUB_TOKEN`.
+GitHub, GitLab and Bitbucket all have varying methods for authenticating against their services, so each one needs slightly different permissions and keys.
+
+> Fun fact &mdash; Private GitHub gists are already supported without any additional authentication because they're only "private" as long as no one else has the URL. [This is a documented feature](https://help.github.com/en/articles/creating-gists#about-gists)!
+
+### GitHub
+
+`create-clone` requires a [GitHub personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with read access for repositories and/or gists. Once you have this token, it needs to be available in your environment at `GITHUB_TOKEN`.
 
 In your `.bashrc`/`.zshrc`/preferred shell config:
 
@@ -170,9 +180,32 @@ In your `.bashrc`/`.zshrc`/preferred shell config:
 export GITHUB_TOKEN=<personal-access-token>
 ```
 
-`create-clone` will check for this environment variable when attempting to clone a GitHub repository or gist and [include it as an authorization header](https://developer.github.com/v3/#authentication) in the request.
+`create-clone` will check for this environment variable when attempting to clone a GitHub repository or gist and [include it as an authorization header](https://developer.github.com/v3/#authentication) in the request. `create-clone` will be able to clone any private GitHub repo your account can access.
 
-I'd love to get this to work with GitLab and Bitbucket too &mdash; if you have any ideas, please let me know how it works with those two platforms!
+### GitLab
+
+GitLab also has [personal access tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html), but because access to the archive of a private repository is only available [via the GitLab API](https://docs.gitlab.com/ee/api/repositories.html#get-file-archive), your token needs to be [given the scope of `api` access](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#limiting-scopes-of-a-personal-access-token), _not_ `read_repository`. Once you have this token, it needs to be available in your environment at `GITLAB_TOKEN`.
+
+In your `.bashrc`/`.zshrc`/preferred shell config:
+
+```sh
+export GITLAB_TOKEN=<personal-access-token>
+```
+
+`create-clone` will check for this environment variable when attempting to clone a GitLab repository and [include it as an authorization header](https://docs.gitlab.com/ee/api/README.html#personal-access-tokens) in the request. `create-clone` will be able to clone any private GitLab repo your account can access.
+
+### Bitbucket
+
+This is the funky one. Bitbucket does not have the equivalent of a personal access token, so we need to use what it calls an [app password](https://confluence.atlassian.com/bitbucket/app-passwords-828781300.html). The _only_ permission your app password needs is `Repositories -> Read`. However, because we are using what's essentially a single-purpose password, we also need to include your Bitbucket username as part of the request. To accomplish this, we need to set up **two** environmental variables: `BITBUCKET_USER` for your username, and `BITBUCKET_TOKEN` for your app password.
+
+In your `.bashrc`/`.zshrc`/preferred shell config:
+
+```sh
+export BITBUCKET_USER=<your-bitbucket-username>
+export BITBUCKET_TOKEN=<app-password>
+```
+
+`create-clone` will check for this environment variable when attempting to clone a Bitbucket repository and include it as the [user and password](https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication#app-pw) of the request. `create-clone` will be able to clone any private Bitbucket repo your account can access.
 
 ## What makes this different from [`degit`](https://github.com/Rich-Harris/degit)?
 
