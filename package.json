@@ -1,6 +1,6 @@
 {
   "name": "create-clone",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A template repository cloning tool with support for private GitHub repos.",
   "main": "dist/index.js",
   "source": "src/index.ts",
