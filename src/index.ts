@@ -35,6 +35,13 @@ async function ensureDir(dir: string) {
   }
 }
 
+function prepareGitLabURL(info: hostedGitInfo) {
+  const id = encodeURIComponent(`${info.user}/${info.project}`);
+  const sha = info.committish ? `?sha=${info.committish}` : '';
+
+  return `https://gitlab.com/api/v4/projects/${id}/repository/archive.tar.gz${sha}`;
+}
+
 function downloadTarball(url: URL, type: string, dest: string) {
   return new Promise((resolve, reject) => {
     const headers = {} as OutgoingHttpHeaders;
@@ -44,10 +51,11 @@ function downloadTarball(url: URL, type: string, dest: string) {
     }
 
     if ('gitlab' === type && process.env.GITLAB_TOKEN) {
-      headers['Private-Token'] = process.env.GITLAB_TOKEN;
+      headers['PRIVATE-TOKEN'] = process.env.GITLAB_TOKEN;
     }
 
     if ('bitbucket' === type && process.env.BITBUCKET_TOKEN) {
+      headers.Authorization = `Bearer ${process.env.BITBUCKET_TOKEN}`;
     }
 
     // we have to do this to support Node 8
@@ -92,7 +100,10 @@ export async function createClone(
   { force = false }: CreateCloneOptions = {}
 ) {
   const info = hostedGitInfo.fromUrl(repoPath);
-  const urlToTarball = info.tarball();
+  const type = info.type;
+
+  const urlToTarball =
+    type === 'gitlab' ? prepareGitLabURL(info) : info.tarball();
 
   if (!urlToTarball) {
     throw new Error(
@@ -101,7 +112,6 @@ export async function createClone(
   }
 
   const url = new URL(urlToTarball);
-  const type = info.type;
 
   // make sure the directory exists
   await ensureDir(dest);
