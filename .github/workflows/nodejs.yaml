@@ -23,7 +23,7 @@ jobs:
           npm test
         env:
           CI: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.UNIQUE_GITHUB_TOKEN }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           BITBUCKET_USER: ${{ secrets.BITBUCKET_USER }}
           BITBUCKET_TOKEN: ${{ secrets.BITBUCKET_TOKEN }}
