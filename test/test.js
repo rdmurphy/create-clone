@@ -4,10 +4,13 @@ const path = require('path');
 
 // packages
 const fs = require('fs-extra');
+const dotenv = require('dotenv');
 const glob = require('tiny-glob');
 
 // local
 const { createClone } = require('../');
+
+dotenv.config();
 
 async function compare(dir, expected) {
   const files = await glob('**', { cwd: dir });
@@ -62,6 +65,17 @@ describe('create-clone', function() {
         new Map([['index.txt', 'This is only a test branch.\n']])
       );
     });
+
+    const private = 'github:rdmurphy/create-clone-test-private';
+
+    it(private, async () => {
+      await createClone(private, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a private test.\n']])
+      );
+    });
   });
 
   describe('create-clone + gitlab', () => {
@@ -88,6 +102,17 @@ describe('create-clone', function() {
       await compare(
         '.output',
         new Map([['index.txt', 'This is only a test branch.\n']])
+      );
+    });
+
+    const private = 'gitlab:rdmurphy_/create-clone-test-private';
+
+    it(private, async () => {
+      await createClone(private, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a private test.\n']])
       );
     });
   });
@@ -118,6 +143,17 @@ describe('create-clone', function() {
         new Map([['index.txt', 'This is only a test branch.\n']])
       );
     });
+
+    const private = 'bitbucket:rdmurphy_/create-clone-test-private';
+
+    it(private, async () => {
+      await createClone(private, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a private test.\n']])
+      );
+    });
   });
 
   describe('create-clone + gist', () => {
@@ -134,6 +170,17 @@ describe('create-clone', function() {
           new Map([['index.txt', 'This is only a test.\n']])
         );
       });
+    });
+
+    const private = 'gist:rdmurphy/eec1e6c8861c2af2772f156b1b87be74';
+
+    it(`${private} (private)`, async () => {
+      await createClone(private, '.output');
+
+      await compare(
+        '.output',
+        new Map([['index.txt', 'This is only a private test.\n']])
+      );
     });
   });
 });

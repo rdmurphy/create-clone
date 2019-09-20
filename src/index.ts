@@ -46,24 +46,31 @@ function downloadTarball(url: URL, type: string, dest: string) {
   return new Promise((resolve, reject) => {
     const headers = {} as OutgoingHttpHeaders;
 
-    if (['github', 'gist'].includes(type) && process.env.GITHUB_TOKEN) {
+    if (type === 'github' && process.env.GITHUB_TOKEN) {
       headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
     }
 
-    if ('gitlab' === type && process.env.GITLAB_TOKEN) {
+    if (type === 'gitlab' && process.env.GITLAB_TOKEN) {
       headers['PRIVATE-TOKEN'] = process.env.GITLAB_TOKEN;
     }
 
-    if ('bitbucket' === type && process.env.BITBUCKET_TOKEN) {
-      headers.Authorization = `Bearer ${process.env.BITBUCKET_TOKEN}`;
+    if (
+      type === 'bitbucket' &&
+      process.env.BITBUCKET_USER &&
+      process.env.BITBUCKET_TOKEN
+    ) {
+      url.username = process.env.BITBUCKET_USER;
+      url.password = process.env.BITBUCKET_TOKEN;
     }
 
     // we have to do this to support Node 8
     const { host, pathname, protocol, search } = url;
     const path = pathname + search;
+    const auth =
+      url.username && url.password ? `${url.username}:${url.password}` : '';
 
     https
-      .get({ headers, host, path, protocol }, res => {
+      .get({ auth, headers, host, path, protocol }, res => {
         const code = res.statusCode;
 
         if (!code || code >= 400) {
