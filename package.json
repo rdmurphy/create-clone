@@ -7,13 +7,13 @@
   "bin": "dist/cli.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "typebundle \"src/{cli,index}.ts\" --output dist --target 8 --compress",
+    "build": "typebundle \"src/{cli,index}.ts\" --output dist --target 10 --compress",
     "build-toc": "doctoc README.md --github",
     "git-pre-commit": "precise-commits",
     "prerelease": "npm run build",
     "release": "np --no-yarn",
     "test": "mocha",
-    "watch": "typebundle \"src/{cli,index}.ts\" --output dist --target 8 --watch"
+    "watch": "typebundle \"src/{cli,index}.ts\" --output dist --target 10 --watch"
   },
   "repository": {
     "type": "git",
