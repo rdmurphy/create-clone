@@ -38,7 +38,7 @@
   "dependencies": {
     "hosted-git-info": "^3.0.0",
     "mri": "^1.1.4",
-    "tar": "^5.0.2"
+    "tar": "^6.0.0"
   },
   "devDependencies": {
     "@newswire/prettier-config": "^2.0.0",
