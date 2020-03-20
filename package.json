@@ -47,7 +47,7 @@
     "@types/tar": "^4.0.3",
     "doctoc": "^1.4.0",
     "dotenv": "^8.1.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "mocha": "^7.0.1",
     "np": "^6.0.0",
     "precise-commits": "^1.0.2",
