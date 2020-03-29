@@ -11,7 +11,7 @@
     "build-toc": "doctoc README.md --github",
     "git-pre-commit": "precise-commits",
     "prerelease": "npm run build",
-    "release": "np --no-yarn",
+    "release": "np --no-yarn --no-tests",
     "test": "mocha",
     "watch": "typebundle \"src/{cli,index}.ts\" --output dist --target 10 --watch"
   },
