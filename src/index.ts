@@ -1,21 +1,16 @@
 // native
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import https from 'https';
 import { resolve } from 'path';
-import { URL } from 'url';
-import { promisify } from 'util';
 
 // packages
 import { extract } from 'tar';
 import hostedGitInfo from 'hosted-git-info';
-import { OutgoingHttpHeaders } from 'http';
-
-const mkdir = promisify(fs.mkdir);
-const readdir = promisify(fs.readdir);
+import type { OutgoingHttpHeaders } from 'http';
 
 async function ensureDirIsEmpty(dir: string) {
   try {
-    const files = await readdir(dir);
+    const files = await fs.readdir(dir);
 
     if (files.length > 0) {
       throw new Error(
@@ -29,7 +24,7 @@ async function ensureDirIsEmpty(dir: string) {
 
 async function ensureDir(dir: string) {
   try {
-    await mkdir(dir);
+    await fs.mkdir(dir);
   } catch (err) {
     if (err.code !== 'EEXIST') throw err;
   }
@@ -63,14 +58,8 @@ function downloadTarball(url: URL, type: string, dest: string) {
       url.password = process.env.BITBUCKET_TOKEN;
     }
 
-    // we have to do this to support Node 8
-    const { host, pathname, protocol, search } = url;
-    const path = pathname + search;
-    const auth =
-      url.username && url.password ? `${url.username}:${url.password}` : '';
-
     https
-      .get({ auth, headers, host, path, protocol }, res => {
+      .get(url, { headers }, (res) => {
         const code = res.statusCode;
 
         if (!code || code >= 400) {
@@ -88,10 +77,7 @@ function downloadTarball(url: URL, type: string, dest: string) {
 
         const extractor = extract({ cwd: dest, strip: 1 });
 
-        res
-          .pipe(extractor)
-          .on('finish', resolve)
-          .on('error', reject);
+        res.pipe(extractor).on('finish', resolve).on('error', reject);
       })
       .on('error', reject);
   });

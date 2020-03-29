@@ -39,6 +39,8 @@
 
 ## Setup
 
+`create-clone` requires at least Node 10 to run.
+
 This library expects to be used in a global context and makes the most sense when installed globally.
 
 ```sh

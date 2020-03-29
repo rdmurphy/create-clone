@@ -36,14 +36,14 @@
   },
   "homepage": "https://github.com/rdmurphy/create-clone#readme",
   "dependencies": {
-    "hosted-git-info": "^3.0.0",
+    "hosted-git-info": "^3.0.4",
     "mri": "^1.1.4",
     "tar": "^6.0.0"
   },
   "devDependencies": {
-    "@newswire/prettier-config": "^2.0.0",
+    "@newswire/prettier-config": "^3.0.0",
     "@types/mri": "^1.1.0",
-    "@types/node": "^13.5.0",
+    "@types/node": "^13.9.5",
     "@types/tar": "^4.0.3",
     "doctoc": "^1.4.0",
     "dotenv": "^8.1.0",
@@ -51,9 +51,9 @@
     "mocha": "^7.0.1",
     "np": "^6.0.0",
     "precise-commits": "^1.0.2",
-    "prettier": "^1.17.1",
+    "prettier": "^2.0.2",
     "tiny-glob": "^0.2.6",
-    "typebundle": "^0.7.0"
+    "typebundle": "^0.9.0"
   },
   "prettier": "@newswire/prettier-config"
 }

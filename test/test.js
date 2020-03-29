@@ -18,7 +18,7 @@ async function compare(dir, expected) {
   assert.deepStrictEqual(files.sort(), [...expected.keys()].sort());
 
   const output = await Promise.all(
-    files.map(async file => [
+    files.map(async (file) => [
       file,
       await fs.readFile(path.join(dir, file), 'utf8'),
     ])
@@ -35,7 +35,7 @@ after(async () => {
   await fs.remove('.output');
 });
 
-describe('create-clone', function() {
+describe('create-clone', function () {
   this.timeout(20000);
 
   describe('create-clone + github', () => {
@@ -44,7 +44,7 @@ describe('create-clone', function() {
       'github:rdmurphy/create-clone-test',
       'https://github.com/rdmurphy/create-clone-test',
       'git@github.com:rdmurphy/create-clone-test',
-    ].forEach(repo => {
+    ].forEach((repo) => {
       it(repo, async () => {
         await createClone(repo, '.output');
 
@@ -83,7 +83,7 @@ describe('create-clone', function() {
       'gitlab:rdmurphy_/create-clone-test',
       'https://gitlab.com/rdmurphy_/create-clone-test',
       'git@gitlab.com:rdmurphy_/create-clone-test',
-    ].forEach(repo => {
+    ].forEach((repo) => {
       it(repo, async () => {
         await createClone(repo, '.output');
 
@@ -122,7 +122,7 @@ describe('create-clone', function() {
       'bitbucket:rdmurphy_/create-clone-test',
       'https://bitbucket.org/rdmurphy_/create-clone-test',
       'git@bitbucket.org:rdmurphy_/create-clone-test',
-    ].forEach(repo => {
+    ].forEach((repo) => {
       it(repo, async () => {
         await createClone(repo, '.output');
 
@@ -161,7 +161,7 @@ describe('create-clone', function() {
       'gist:rdmurphy/a331aa74143680d709faf3922b15c463',
       'https://gist.github.com/rdmurphy/a331aa74143680d709faf3922b15c463',
       'git@gist.github.com:rdmurphy/a331aa74143680d709faf3922b15c463',
-    ].forEach(repo => {
+    ].forEach((repo) => {
       it(repo, async () => {
         await createClone(repo, '.output');
 
