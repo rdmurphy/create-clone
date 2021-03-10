@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/rdmurphy/create-clone#readme",
   "dependencies": {
-    "hosted-git-info": "^3.0.4",
+    "hosted-git-info": "^4.0.0",
     "mri": "^1.1.4",
     "tar": "^6.0.0"
   },
